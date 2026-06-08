@@ -317,6 +317,14 @@
 \fancyhead[L]{\includegraphics[height=0.8cm]{figures/tongjilogo.png}}%%留空则不显示
 \fancyhead[C]{}%%留空则不显示
 \fancyhead[R]{}%%留空则不显示
+\fancyfoot[R]{\footnotesize\href{https://github.com/TongjiCEIENotes}{https://github.com/TongjiCEIENotes}}
+
+\fancypagestyle{plain}{%
+    \fancyhf{}
+    \fancyfoot[C]{\thepage}
+    \fancyfoot[R]{\footnotesize\href{https://github.com/TongjiCEIENotes}{https://github.com/TongjiCEIENotes}}
+    \renewcommand{\headrulewidth}{0pt}
+}
 
 
 % 封面页设置
@@ -343,4 +351,3 @@
     \thispagestyle{empty} % 封面页不显示页码
     \maketitle
 }
-
