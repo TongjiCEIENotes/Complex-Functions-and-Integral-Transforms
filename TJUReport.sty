@@ -1,0 +1,346 @@
+%===========================================================================
+% TJUReport 样式包 - 用于学科例题整理
+%===========================================================================
+% 本样式包提供了一套完整的例题整理文档格式
+%
+% 【主要功能】
+% 1. 页面设置：A4纸张，2.5cm页边距
+% 2. 数学环境：支持完整的数学公式排版
+% 3. 图表支持：支持插入图片、表格
+% 4. 彩色文本框：用于突出显示题目
+% 5. 参考文献：支持BibTeX参考文献管理
+% 6. 页眉设置：可自定义页眉logo
+% 7. 封面模板：可选的封面页设置
+%
+% 【修改封面信息】
+% 在本文件的第103-122行修改封面的个人信息（学院、专业、学号、姓名等）
+%
+% 【修改页眉logo】
+% 在本文件的第95行修改页眉左侧的logo图片路径
+%
+% 【修改颜色主题】
+% tcolorbox的颜色可以在main.tex中的tcolorbox环境中修改
+% 例如：colback=cyan!10!white（背景色），colframe=cyan!80!black（边框色）
+%===========================================================================
+
+\ProvidesPackage{TJUReport}
+
+%%页边距
+\RequirePackage[left=2.50cm, right=2.50cm, top=2.50cm, bottom=2.50cm]{geometry}
+
+%%一些必要的宏包
+\RequirePackage[unicode=true,colorlinks,urlcolor=blue,linkcolor=blue,bookmarksnumbered=blue]{hyperref}
+\RequirePackage{latexsym,amssymb,amsmath,amsbsy,amsopn,amstext,amsthm,amsxtra,color,bm,calc,ifpdf}
+\RequirePackage{graphicx}
+\RequirePackage{enumerate}
+\RequirePackage{fancyhdr}
+\RequirePackage{listings}
+\RequirePackage{multirow}
+\RequirePackage{makeidx}
+\RequirePackage{needspace}
+
+\PassOptionsToPackage{dvipsnames}{xcolor}
+\RequirePackage{xcolor}
+
+\RequirePackage{pdfpages}
+\RequirePackage{fontspec}
+\RequirePackage{subfigure}
+\PassOptionsToPackage{hyphens}{url}
+\RequirePackage{hyperref}
+\RequirePackage{pythonhighlight}
+\RequirePackage{booktabs}
+%原来是\usepackage{tcolorbox}，改为下面这一行(editby高鹏，2026/1/29)
+\RequirePackage[most]{tcolorbox}
+
+%以下加了Note环境和编号环境(editby高鹏，2026/1/29)
+\RequirePackage{thmtools}
+\RequirePackage[shortlabels,inline]{enumitem}
+%% note 环境（带左侧线与底色）
+% \declaretheoremstyle: 定义定理类样式（标题/正文/间距）
+\declaretheoremstyle[
+    headfont=\color{orange!80}\bfseries, % 标题字体与颜色
+    bodyfont=\normalfont\color{black},  % 正文字体（重置颜色）
+    spaceabove=3pt,                     % 环境前间距
+    spacebelow=3pt,                     % 环境后间距
+    headformat=\NOTE,                   % 标题内容（此处仅显示可选标题）
+    headpunct={},                       % 标题后不额外插入符号
+    notebraces={}{\newline}             % 有标题才换行
+]{notestyle}
+
+% \declaretheorem: 定义 note 环境（有编号/无编号）
+\declaretheorem[style=notestyle, name=Note, numbered=yes, numberwithin=section]{note} % 编号版
+\declaretheorem[style=notestyle, name={}, numbered=no]{note*}                        % 无编号版
+
+% \tcolorboxenvironment: 给 note 环境添加左侧线与底色
+\tcolorboxenvironment{note}{%
+    enhanced, breakable,               % 允许跨页
+    sharp corners,                     % 直角边框
+    leftrule=2pt, rightrule=0pt,        % 仅左侧有边线
+    toprule=0pt, bottomrule=0pt,        % 上下边线不显示
+    colframe=Orange,                   % 左侧边线颜色
+    colback=Orange!8,                  % 背景底色
+    before=\Needspace{5\baselineskip}, % 避免整体跨页
+    coltext=black                      % 正文字色
+}
+\tcolorboxenvironment{note*}{%
+    enhanced, breakable,               % 允许跨页
+    rounded corners,                   % 圆角边框
+    leftrule=2pt, rightrule=0pt,        % 仅左侧有边线
+    toprule=0pt, bottomrule=0pt,        % 上下边线不显示
+    colframe=Orange,                   % 左侧边线颜色
+    colback=Orange!8,                  % 背景底色
+    before=\Needspace{5\baselineskip}, % 避免整体跨页
+    coltext=black                      % 正文字色
+}
+%以上加了note环境（editby高鹏，2026/1/29）
+
+% ===== 下面是有颜色的定理类环境（editby高鹏，2026/1/29）
+% 说明：保留原有大写 Theorem/Lemma 等，不删除；这里只新增有颜色的环境，使用时用小写就行
+\declaretheorem[style=plain, name=定理, numbered=yes, numberwithin=section]{theorem}
+\declaretheorem[style=plain, name=定理, numbered=no]{theorem*}
+
+\declaretheorem[style=plain, name=命题, numbered=yes, sibling=theorem]{proposition}
+\declaretheorem[style=plain, name=命题, numbered=no]{proposition*}
+
+\declaretheorem[style=plain, name=推论, numbered=yes, sibling=theorem]{corollary}
+\declaretheorem[style=plain, name=推论, numbered=no]{corollary*}
+
+\declaretheorem[style=plain, name=引理, numbered=yes, sibling=theorem]{lemma}
+\declaretheorem[style=plain, name=引理, numbered=no]{lemma*}
+
+\declaretheorem[style=plain, name=断言, numbered=yes, sibling=theorem]{claim}
+\declaretheorem[style=plain, name=断言, numbered=no]{claim*}
+
+\declaretheorem[style=definition, name=定义, numbered=yes, numberwithin=section]{definition}
+\declaretheorem[style=definition, name=定义, numbered=no]{definition*}
+
+\declaretheorem[style=definition, name=例, numbered=yes, numberwithin=section]{example}
+\declaretheorem[style=definition, name=例, numbered=no]{example*}
+
+\declaretheorem[style=definition, name=题, numbered=yes, numberwithin=section]{problem}
+\declaretheorem[style=definition, name=题, numbered=no]{problem*}
+
+\declaretheorem[style=remark, name=注, numbered=yes, numberwithin=section]{remark}
+\declaretheorem[style=remark, name=注, numbered=no]{remark*}
+%(by高鹏，2026/2/13)
+\newtheoremstyle{solutionstyle}%
+  {3pt}   % 上间距
+  {3pt}   % 下间距
+  {\normalfont}  % 正文字体
+  {}      % 缩进
+  {\bfseries}    % 标题字体
+  {.}     % 标题后标点
+  { }     % 标题后空格
+  {}      % 标题格式
+\theoremstyle{solutionstyle}
+\newtheorem{solution}{解}[section]
+\newtheorem*{solution*}{解}
+%(by高鹏，2026/2/13)
+
+% 为小写环境添加 tcolorbox 样式
+\tcolorboxenvironment{theorem}{enhanced, breakable, sharp corners, boxrule=1pt, colframe=RoyalPurple, colback=RoyalPurple!8}
+\tcolorboxenvironment{theorem*}{enhanced, breakable, rounded corners, boxrule=1pt, colframe=RoyalPurple, colback=RoyalPurple!8}
+
+\tcolorboxenvironment{proposition}{enhanced, breakable, sharp corners, boxrule=1pt, colframe=RoyalPurple, colback=RoyalPurple!8}
+\tcolorboxenvironment{proposition*}{enhanced, breakable, rounded corners, boxrule=1pt, colframe=RoyalPurple, colback=RoyalPurple!8}
+
+\tcolorboxenvironment{corollary}{enhanced, breakable, sharp corners, boxrule=1pt, colframe=NavyBlue, colback=SkyBlue!8}
+\tcolorboxenvironment{corollary*}{enhanced, breakable, rounded corners, boxrule=1pt, colframe=NavyBlue, colback=SkyBlue!8}
+
+\tcolorboxenvironment{lemma}{enhanced, breakable, sharp corners, boxrule=1pt, colframe=NavyBlue, colback=SkyBlue!8}
+\tcolorboxenvironment{lemma*}{enhanced, breakable, rounded corners, boxrule=1pt, colframe=NavyBlue, colback=SkyBlue!8}
+
+\tcolorboxenvironment{claim}{enhanced, breakable, sharp corners, boxrule=1pt, colframe=NavyBlue, colback=SkyBlue!8}
+\tcolorboxenvironment{claim*}{enhanced, breakable, rounded corners, boxrule=1pt, colframe=NavyBlue, colback=SkyBlue!8}
+
+\tcolorboxenvironment{definition}{enhanced, breakable, sharp corners, boxrule=1pt, colframe=ForestGreen, colback=ForestGreen!5}
+\tcolorboxenvironment{definition*}{enhanced, breakable, rounded corners, boxrule=1pt, colframe=ForestGreen, colback=ForestGreen!5}
+
+\tcolorboxenvironment{example}{enhanced, breakable, sharp corners, boxrule=1pt, colframe=RawSienna, colback=RawSienna!5}
+\tcolorboxenvironment{example*}{enhanced, breakable, rounded corners, boxrule=1pt, colframe=RawSienna, colback=RawSienna!5}
+
+\tcolorboxenvironment{problem}{enhanced, breakable, sharp corners, boxrule=1pt, colframe=WildStrawberry!30, colback=WildStrawberry!5}
+\tcolorboxenvironment{problem*}{enhanced, breakable, rounded corners, boxrule=1pt, colframe=WildStrawberry!30, colback=WildStrawberry!5}
+
+\tcolorboxenvironment{remark}{enhanced, breakable, sharp corners, boxrule=1pt, colframe=WildStrawberry!30, colback=WildStrawberry!5}
+\tcolorboxenvironment{remark*}{enhanced, breakable, rounded corners, boxrule=1pt, colframe=WildStrawberry!30, colback=WildStrawberry!5}
+
+%我突然觉得全文都是框那不是相当于没框，于是决定把解答和证明部分改成没框的(by高鹏，2026/2/13)
+%\tcolorboxenvironment{solution}{enhanced, breakable, sharp corners, boxrule=1pt, colframe=RoyalPurple, colback=RoyalPurple!8}
+%\tcolorboxenvironment{solution*}{enhanced, breakable, rounded corners, boxrule=1pt, colframe=RoyalPurple, colback=RoyalPurple!8}
+% ===== 以上有颜色的定理类环境（editby高鹏，2026/1/29）
+
+% ===== 下面是小写定理类的 headless 版本（editby高鹏，2026/1/29）
+% 说明：不显示“Theorem/Lemma”等标题，仅显示可选标题（如有），并跟随边框颜色
+\declaretheoremstyle[
+    headfont=\color{RoyalPurple}\bfseries,
+    bodyfont=\normalfont\color{black},
+    spaceabove=3pt,
+    spacebelow=3pt,
+    headformat=\NOTE,
+    headpunct={},
+    notebraces={}{\newline}
+]{headlesstheorem}
+\declaretheoremstyle[
+    headfont=\color{NavyBlue}\bfseries,
+    bodyfont=\normalfont\color{black},
+    spaceabove=3pt,
+    spacebelow=3pt,
+    headformat=\NOTE,
+    headpunct={},
+    notebraces={}{\newline}
+]{headlessblue}
+\declaretheoremstyle[
+    headfont=\color{ForestGreen}\bfseries,
+    bodyfont=\normalfont\color{black},
+    spaceabove=3pt,
+    spacebelow=3pt,
+    headformat=\NOTE,
+    headpunct={},
+    notebraces={}{\newline}
+]{headlessgreen}
+\declaretheoremstyle[
+    headfont=\color{RawSienna}\bfseries,
+    bodyfont=\normalfont\color{black},
+    spaceabove=3pt,
+    spacebelow=3pt,
+    headformat=\NOTE,
+    headpunct={},
+    notebraces={}{\newline}
+]{headlessbrown}
+\declaretheoremstyle[
+    headfont=\color{WildStrawberry}\bfseries,
+    bodyfont=\normalfont\color{black},
+    spaceabove=3pt,
+    spacebelow=3pt,
+    headformat=\NOTE,
+    headpunct={},
+    notebraces={}{\newline}
+]{headlesspink}
+
+\declaretheorem[style=headlesstheorem, name={}, numbered=no]{theoremh}
+\declaretheorem[style=headlesstheorem, name={}, numbered=no]{propositionh}
+\declaretheorem[style=headlessblue, name={}, numbered=no]{corollaryh}
+\declaretheorem[style=headlessblue, name={}, numbered=no]{lemmah}
+\declaretheorem[style=headlessblue, name={}, numbered=no]{claimh}
+\declaretheorem[style=headlessgreen, name={}, numbered=no]{definitionh}
+\declaretheorem[style=headlessbrown, name={}, numbered=no]{exampleh}
+\declaretheorem[style=headlesspink, name={}, numbered=no]{problemh}
+\declaretheorem[style=headlesspink, name={}, numbered=no]{remarkh}
+\declaretheorem[style=headlesstheorem, name={}, numbered=no]{solutionh}
+
+% headless 版本对应的 tcolorbox 样式
+\tcolorboxenvironment{theoremh}{enhanced, breakable, sharp corners, boxrule=1pt, colframe=RoyalPurple, colback=RoyalPurple!8}
+\tcolorboxenvironment{propositionh}{enhanced, breakable, sharp corners, boxrule=1pt, colframe=RoyalPurple, colback=RoyalPurple!8}
+\tcolorboxenvironment{corollaryh}{enhanced, breakable, sharp corners, boxrule=1pt, colframe=NavyBlue, colback=SkyBlue!8}
+\tcolorboxenvironment{lemmah}{enhanced, breakable, sharp corners, boxrule=1pt, colframe=NavyBlue, colback=SkyBlue!8}
+\tcolorboxenvironment{claimh}{enhanced, breakable, sharp corners, boxrule=1pt, colframe=NavyBlue, colback=SkyBlue!8}
+\tcolorboxenvironment{definitionh}{enhanced, breakable, sharp corners, boxrule=1pt, colframe=ForestGreen, colback=ForestGreen!5}
+\tcolorboxenvironment{exampleh}{enhanced, breakable, sharp corners, boxrule=1pt, colframe=RawSienna, colback=RawSienna!5}
+\tcolorboxenvironment{problemh}{enhanced, breakable, sharp corners, boxrule=1pt, colframe=WildStrawberry!30, colback=WildStrawberry!5}
+\tcolorboxenvironment{remarkh}{enhanced, breakable, sharp corners, boxrule=1pt, colframe=WildStrawberry!30, colback=WildStrawberry!5}
+%\tcolorboxenvironment{solutionh}{enhanced, breakable, sharp corners, boxrule=1pt, colframe=RoyalPurple, colback=RoyalPurple!8}
+% ===== 以上 headless 版本（editby高鹏，2026/1/29）
+
+\RequirePackage{fontawesome}
+%绘制数学图片(editby高鹏，2026/1/29)
+\RequirePackage{tikz}
+\RequirePackage{pgfplots}
+\usetikzlibrary{arrows.meta}
+
+%% 更改摘要二字的样式
+\renewcommand{\abstractname}{\textbf{\large {摘\quad 要}}} 
+
+%可固定下划线长度
+\makeatletter
+\newcommand\dlmu[2][4cm]{\hskip1pt\underline{\hb@xt@ #1{\hss#2\hss}}\hskip3pt}
+\makeatother
+
+%更改主题
+% \hypersetup{
+%     colorlinks=true,
+%     linkcolor=blue,
+%     filecolor=blue,      
+%     urlcolor=Magenta,
+%     citecolor=orange,
+% }
+
+%%对一些autoref的中文引用名作修改
+\def\equationautorefname{式}
+\def\footnoteautorefname{脚注}
+\def\itemautorefname{项}
+\def\figureautorefname{图}
+\def\tableautorefname{表}
+\def\partautorefname{篇}
+\def\appendixautorefname{附录}
+\def\chapterautorefname{章}
+\def\sectionautorefname{节}
+\def\subsectionautorefname{小小节}
+\def\subsubsectionautorefname{subsubsection}
+\def\paragraphautorefname{段落}
+\def\subparagraphautorefname{子段落}
+\def\FancyVerbLineautorefname{行}
+\def\theoremautorefname{定理}
+
+\newtheorem{Theorem}{定理}[section]
+\newtheorem{Lemma}[Theorem]{引理}
+\newtheorem{Corollary}[Theorem]{推论}
+\newtheorem{Proposition}[Theorem]{命题}
+\newtheorem{Definition}[Theorem]{定义}
+\newtheorem{Example}[Theorem]{例}
+
+%%参考文献设置
+\newcommand{\reference}{
+%\nocite{*}   %打开此选项会列出bib里面的所有参考文献
+\bibliographystyle{unsrt} %规定了参考文献的格式
+\begin{center}%居中
+	\bibliography{reference} %调出LaTeX生成参考文献列表
+\end{center}
+}
+
+%%文本框设置
+\newcommand{\tbox}[1]{
+\begin{center}
+\begin{tcolorbox}[colback=gray!10,%gray background
+                  colframe=black,% black frame colour
+                  width=8cm,% Use 8cm total width,
+                  arc=1mm, auto outer arc,
+                  boxrule=0.5pt,
+                 ]
+{#1}
+\end{tcolorbox}
+\end{center}
+}
+
+%%页眉设置
+\pagestyle{fancy}
+\fancyhead[L]{\includegraphics[height=0.8cm]{figures/tongjilogo.png}}%%留空则不显示
+\fancyhead[C]{}%%留空则不显示
+\fancyhead[R]{}%%留空则不显示
+
+
+% 封面页设置
+\title{%
+    \vspace*{2cm} % 页面上方留白（可根据需要调整）
+    \centering
+    \includegraphics[width=0.5\textwidth]{figures/tongji.png} \\[2cm] % 图片后加 2cm 垂直间距
+    \heiti \Huge \textbf{复变函数与积分变换} \par
+    \vspace{1cm} % 标题与后续信息的间距
+}
+
+\author{%
+    \kaishu\Large 电子与信息工程学院学业发展与指导中心 \\[0.5cm]
+    %\kaishu\Large 专业\ \dlmu[9cm]{xxxxx} \\[0.5cm]
+    %\kaishu\Large 学号\ \dlmu[9cm]{xxxxx} \\[0.5cm]
+    %\kaishu\Large 姓名\ \dlmu[9cm]{xxxxx} \\[0.5cm]
+    %\kaishu\Large 老师\ \dlmu[9cm]{xxxxx} \\[0.5cm]
+}
+
+\date{\today} % 可注释掉不显示日期
+
+% 封面命令
+\newcommand{\cover}{%
+    \thispagestyle{empty} % 封面页不显示页码
+    \maketitle
+}
+
