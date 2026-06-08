@@ -1,0 +1,17 @@
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+
+# Generated PDFs
+main.pdf
+复变函数与积分变换.pdf
+
+# Local editor settings
+.vscode/
