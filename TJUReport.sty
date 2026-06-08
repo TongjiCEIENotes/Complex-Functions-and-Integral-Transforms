@@ -313,16 +313,23 @@
 }
 
 %%页眉设置
-\pagestyle{fancy}
-\fancyhead[L]{\includegraphics[height=0.8cm]{figures/tongjilogo.png}}%%留空则不显示
-\fancyhead[C]{}%%留空则不显示
-\fancyhead[R]{\footnotesize\href{https://github.com/TongjiCEIENotes}{https://github.com/TongjiCEIENotes}}%%留空则不显示
+\setlength{\headheight}{27pt}
+\fancypagestyle{ceienotes}{%
+    \fancyhf{}
+    \fancyhead[L]{\includegraphics[height=0.8cm]{figures/tongjilogo.png}}%%留空则不显示
+    \fancyhead[C]{}%%留空则不显示
+    \fancyhead[R]{\footnotesize\href{https://github.com/TongjiCEIENotes}{https://github.com/TongjiCEIENotes}}%%留空则不显示
+    \fancyfoot[C]{\thepage}
+    \renewcommand{\headrulewidth}{0.4pt}
+    \renewcommand{\footrulewidth}{0pt}
+}
+\pagestyle{ceienotes}
 
 \fancypagestyle{plain}{%
     \fancyhf{}
-    \fancyhead[R]{\footnotesize\href{https://github.com/TongjiCEIENotes}{https://github.com/TongjiCEIENotes}}
     \fancyfoot[C]{\thepage}
-    \renewcommand{\headrulewidth}{0.4pt}
+    \renewcommand{\headrulewidth}{0pt}
+    \renewcommand{\footrulewidth}{0pt}
 }
 
 

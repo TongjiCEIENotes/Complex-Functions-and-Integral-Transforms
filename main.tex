@@ -9,7 +9,7 @@
 % 4. 主要修改内容见下方"需要修改的内容"标记处
 %===========================================================================
 
-\documentclass[openany]{ctexbook}
+\documentclass[openany,oneside]{ctexbook}
 \usepackage{TJUReport}
 \usepackage{float}
 \usepackage{graphicx}
@@ -59,10 +59,12 @@
 % %%--------------------------目录页（可选）------------------------%%
 % 如果需要目录，取消下面两行的注释
 \newpage
+\pagestyle{plain}
 \tableofcontents
+\clearpage
+\pagestyle{ceienotes}
 
 % %%------------------------正文页从这里开始-------------------%
-\newpage
 \EnableMainWatermark
 
 %===========================================================================
